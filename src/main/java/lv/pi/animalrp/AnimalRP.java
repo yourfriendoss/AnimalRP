@@ -162,7 +162,10 @@ public class AnimalRP extends JavaPlugin {
         getCommand("bite").setExecutor(new InteractionCommand(Mood.ANGRY, "%s bit you!! Σ(っﾟДﾟ)っ %s", "You bit %s! (○｀д´)ﾉｼ %s"));
         getCommand("purr").setExecutor(new InteractionCommand(Mood.CUTE, "You hear the soft sound of %s purring on you... %s", "You jump on %s, and start purring. %s"));
         getCommand("scratch").setExecutor(new InteractionCommand(Mood.ANGRY, "%s SCRATCHES YOU! Ow! %s", "You channel your inner evil, and scratch %s! %s"));
-        getCommand("hug").setExecutor(new InteractionCommand(Mood.HAPPY, "%s hugs you! How heartwarming. %s", "You hug %s! How heartwarming. %s")); // Simo__28 SUCKS
-        getCommand("cuddle").setExecutor(new InteractionCommand(Mood.CUTE, "%s cuddles with you. %s", "You and %s start cuddling. How cute! %s")); // Simo__28 SUCKS
+
+        /* Contributed by Simo__28 */
+        getCommand("hug").setExecutor(new InteractionCommand(Mood.HAPPY, "%s hugs you! How heartwarming. %s", "You hug %s! How heartwarming. %s"));
+        getCommand("cuddle").setExecutor(new InteractionCommand(Mood.CUTE, "%s cuddles with you. %s", "You and %s start cuddling. How cute! %s"));
+        /* */
     }
 }

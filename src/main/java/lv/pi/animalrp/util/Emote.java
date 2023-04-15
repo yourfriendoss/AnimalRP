@@ -27,7 +27,7 @@ public class Emote {
     private HashMap<UUID, Emotes> players = new HashMap<UUID, Emotes>();
 
     static {
-        emotes.put(Emotes.HAPPY, new String[]{
+        emotes.put(Emotes.HAPPY, new String[]{ // Emote by PotionOfHarming!
             "0010000000100",
             "0101000001010",
             "0000000000000",
@@ -96,7 +96,7 @@ public class Emote {
         }
     }
 
-    public static List<Location> getEmoteLocs(Location loc, String[] ttEmote, Location rotationLoc) {
+    public static List<Location> getEmoteLocs(Location loc, String[] ttEmote, Location rotationLoc) { // Emote rendering written by PotionOfHarming!
         List<List<Location>> locations = new ArrayList<>();
         int y = 0;
         int distance = 10;
