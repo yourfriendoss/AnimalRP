@@ -49,7 +49,7 @@ public class EmoteCommand implements CommandExecutor {
             arg0.sendMessage(AnimalRP.mm.deserialize("<red>Stopped emoting."));
             AnimalRP.emotes.stopEmote(player.getUniqueId());
         } else {
-            arg0.sendMessage(AnimalRP.mm.deserialize("<red>Emoting!"));
+            arg0.sendMessage(AnimalRP.mm.deserialize("<green>Emoting!"));
             AnimalRP.emotes.playEmote(player.getUniqueId(), emote);
         }
 
