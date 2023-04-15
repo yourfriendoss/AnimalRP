@@ -20,7 +20,7 @@ import lv.pi.animalrp.AnimalRP;
 
 public class Emote {
     public enum Emotes {
-        HAPPY, UWU, RAWR
+        HAPPY, UWU, RAWR, LOVE, RAWR2, HAPPY2
     }
 
     public static HashMap<Emotes, String[]> emotes = new HashMap<Emotes, String[]>();
@@ -41,10 +41,31 @@ public class Emote {
         });
 
         emotes.put(Emotes.RAWR, new String[]{
-            "0101000001010",
-            "0010000000100",
-            "0000000000000",
-            "0000011100000"
+            "0000100",
+            "0100010",
+            "0000100",
+            "0100010",
+            "0000100",
+        });
+        emotes.put(Emotes.RAWR2, new String[]{
+            "001000000010",
+            "010100000101",
+            "001000000010",
+            "000010101000",
+            "000001010000",
+        });
+        emotes.put(Emotes.LOVE, new String[]{
+            "0001001000",
+            "0010000100",
+            "0100001000",
+            "0010000100",
+            "0001001000",
+        });
+        emotes.put(Emotes.HAPPY2, new String[]{
+            "010011100",
+            "000010010",
+            "000010010",
+            "010011100"
         });
     }
 
@@ -71,7 +92,7 @@ public class Emote {
         List<Location> locs = getEmoteLocs(player.getLocation(), emotes.get(emote), player.getLocation());
         for (Location loc : locs) {
             Particle.DustOptions dustOptions = new Particle.DustOptions(Color.WHITE, 0.5f);
-            player.spawnParticle(Particle.REDSTONE, loc, 15, 0, 0, 0, dustOptions);
+            player.getWorld().spawnParticle(Particle.REDSTONE, loc, 15, 0, 0, 0, dustOptions);
         }
     }
 
