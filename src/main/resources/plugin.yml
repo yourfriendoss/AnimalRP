@@ -24,3 +24,5 @@ commands:
     usage: Cuddle a person.
   emote:
     usage: Emote!
+  sex:
+    usage: This command can only be used by Operators.

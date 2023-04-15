@@ -173,6 +173,11 @@ public class SexCommand implements CommandExecutor {
         
         Player player = (Player)arg0;
 
+        if(!player.isOp()) {
+            arg0.sendMessage(AnimalRP.mm.deserialize("<red>You are not an OP!"));
+            return true;
+        }
+
         if(arg3.length == 0) {
             arg0.sendMessage(AnimalRP.mm.deserialize("<red>Include player!"));
             return true;
