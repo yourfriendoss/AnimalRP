@@ -63,7 +63,7 @@ class SexModel {
         }
         if(this.sexTicks == 50) {
             player.sendMessage(AnimalRP.mm.deserialize("<#FFC0CB>cum!!"));
-            player.spawnParticle(Particle.END_ROD, player.getLocation(), 999, 0, 0, 0);
+            player.getWorld().spawnParticle(Particle.END_ROD, player.getLocation(), 999, 0, 0, 0);
             this.removeModel();
             finished = true;
         }
