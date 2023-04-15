@@ -1,0 +1,26 @@
+name: animalrp
+main: lv.pi.animalrp.AnimalRP
+version: 1.0.0
+api-version: 1.19
+commands:
+  tf:
+    usage: Become the animal of your dreams!
+  headpats:
+    aliases: [pats, pet]
+    usage: Pet someone! :3
+  kiss:
+    usage: Kiss someone! :3
+  bite:
+    aliases: lovebite
+    usage: Bite someone! (cutely)
+  purr:
+    aliases: [mrrow, meow]
+    usage: Purr to someone! :3
+  scratch:
+    usage: Scratch someone! Ow!
+  hug:
+    usage: Hug a person.
+  cuddle:
+    usage: Cuddle a person.
+  emote:
+    usage: Emote!
