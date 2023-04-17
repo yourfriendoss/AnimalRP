@@ -46,12 +46,6 @@ public class MyCoolAnimal extends Animal {
     public String chatTransformations(String message) {
         return this.destroyer.destroy(message);
     }
-
-    @Override
-    public Location movementTransformations(Location location) {
-        return location;
-    }
-    
 }
 ```
 3. Change the info in the TextDestroyer initialization

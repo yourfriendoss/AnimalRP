@@ -3,7 +3,6 @@ package lv.pi.animalrp.animals;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.BlockFace;
@@ -93,10 +92,4 @@ public class Bee extends Animal {
     public String chatTransformations(String message) {
         return destroyer.destroy(message);
     }
-
-    @Override
-    public Location movementTransformations(Location location) {
-        return location;
-    }
-    
 }

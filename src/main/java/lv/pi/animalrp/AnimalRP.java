@@ -62,6 +62,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public class AnimalRP extends JavaPlugin {
     public static HashMap<UUID, Animal> users = new HashMap<UUID, Animal>();
+    public static HashMap<UUID, Boolean> isChatModOff = new HashMap<UUID, Boolean>();
     public static HashMap<UUID, Cooldown> cooldowns = new HashMap<UUID, Cooldown>();
     public static HashMap<String, Animal> animals = new HashMap<String, Animal>();
     public static Emote emotes;
@@ -114,6 +115,7 @@ public class AnimalRP extends JavaPlugin {
         animals.put("fox", new Fox());
         animals.put("bee", new Bee());
         // animals.put("phantom", new Phantom()); // finish Phantom
+        
         animals.forEach((z,b) -> {
             pm.registerEvents(b, this);
         });

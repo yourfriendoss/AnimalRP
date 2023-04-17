@@ -2,7 +2,6 @@ package lv.pi.animalrp.animals;
 
 import java.util.Random;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
@@ -63,10 +62,4 @@ public class Fox extends Animal {
     public String chatTransformations(String message) {
         return this.destroyer.destroy(message);
     }
-
-    @Override
-    public Location movementTransformations(Location location) {
-        return location;
-    }
-    
 }

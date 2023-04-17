@@ -1,6 +1,5 @@
 package lv.pi.animalrp.animals;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -59,10 +58,4 @@ public class Cat extends Animal {
     public String chatTransformations(String message) {
         return destroyer.destroy(message);
     }
-
-    @Override
-    public Location movementTransformations(Location location) {
-        return location;
-    }
-    
 }

@@ -20,15 +20,16 @@ public class TextDestroyer {
         Random y = new Random();
 
         for (String word : words) {
-            if(y.nextBoolean()){
-                out.add(word);
-                continue;
-            };
-            if(word.startsWith("[") && word.endsWith("]")) {
+            if((word.startsWith("[") && word.endsWith("]")) || word.startsWith("@")) {
                 out.add(word);
                 continue;
             }
             
+            if(y.nextBoolean()){
+                out.add(word);
+                continue;
+            };
+
             for(String[] replacing: this.replaces) {
                 word = word.replace(replacing[0], replacing[1]);
             }

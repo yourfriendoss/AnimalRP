@@ -3,7 +3,6 @@ package lv.pi.animalrp.animals;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -53,5 +52,4 @@ public abstract class Animal implements Listener {
     } 
     
     public abstract String chatTransformations(String message);
-    public abstract Location movementTransformations(Location location);
 }
