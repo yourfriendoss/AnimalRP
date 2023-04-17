@@ -7,6 +7,8 @@ Doubleclicking shift you will float (levitation 5 for 1 second), allowing for be
 You take significantly less damage when falling (5 hearts). You can still die, don't count on your cat-powers catching you every time. **Your superfood is all types of eatable fish.**
 3. Fox
 You do more damage to mobs (25%). **Your superfood is all types of berry.**
+4. Phantom
+You can use elytras, however you burn in daylight and your elytra speed is capped at half of the normal one. **Your superfoods are all uncooked meats.**
 
 ## **Chat**
 Chat while you are a animal is very different. When you speak, your words will become furry-ified and every time you talk you'll have animal sounds come out of you.

@@ -58,9 +58,11 @@ class SexModel {
             asl.add(SexCommand.getVector(this.yaw, 0.2));
             as.teleport(asl);
         }
+        
         if(this.sexTicks == 30) {
             player.sendMessage(AnimalRP.mm.deserialize("<#FFC0CB>I'm about to.."));
         }
+
         if(this.sexTicks == 50) {
             player.sendMessage(AnimalRP.mm.deserialize("<#FFC0CB>cum!!"));
             player.getWorld().spawnParticle(Particle.END_ROD, player.getLocation(), 999, 0, 0, 0);

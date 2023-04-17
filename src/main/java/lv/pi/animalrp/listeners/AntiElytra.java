@@ -16,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import lv.pi.animalrp.AnimalRP;
+import lv.pi.animalrp.animals.Animal;
 
 public class AntiElytra implements Listener {
 
@@ -53,6 +54,12 @@ public class AntiElytra implements Listener {
     }
 
     private void dequipElytra(Player player) {
+        Animal animal = AnimalRP.users.get(player.getUniqueId());
+        
+        if(animal != null) {
+            if(animal.name == "phantom") return; // phantom-ians can use elytra
+        }
+        
         PlayerInventory i = player.getInventory();
         if (!( (i.getChestplate() != null) && i.getChestplate().getType().equals(Material.ELYTRA))) return;
         if(player.getGameMode() == GameMode.CREATIVE) return;

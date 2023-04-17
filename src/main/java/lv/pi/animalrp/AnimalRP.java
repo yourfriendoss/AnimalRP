@@ -113,7 +113,7 @@ public class AnimalRP extends JavaPlugin {
         animals.put("cat", new Cat());
         animals.put("fox", new Fox());
         animals.put("bee", new Bee());
-
+        // animals.put("phantom", new Phantom()); // finish Phantom
         animals.forEach((z,b) -> {
             pm.registerEvents(b, this);
         });
