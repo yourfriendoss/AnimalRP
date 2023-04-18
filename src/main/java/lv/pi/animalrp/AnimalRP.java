@@ -51,6 +51,8 @@ import lv.pi.animalrp.animals.Cat;
 import lv.pi.animalrp.animals.Fox;
 import lv.pi.animalrp.commands.EmoteCommand;
 import lv.pi.animalrp.commands.InteractionCommand;
+import lv.pi.animalrp.commands.ChatModCommand;
+import lv.pi.animalrp.commands.ClearCooldownCommand;
 import lv.pi.animalrp.commands.SexCommand;
 import lv.pi.animalrp.commands.TfCommand;
 import lv.pi.animalrp.listeners.AntiElytra;
@@ -184,6 +186,13 @@ public class AnimalRP extends JavaPlugin {
         getCommand("tf").setExecutor(new TfCommand());
         getCommand("emote").setExecutor(new EmoteCommand());
         getCommand("sex").setExecutor(new SexCommand());
+
+        ChatModCommand cmc = new ChatModCommand();
+
+        getCommand("chatmodoff").setExecutor(cmc);
+        getCommand("chatmodon").setExecutor(cmc);
+
+        getCommand("clearcooldown").setExecutor(new ClearCooldownCommand());
 
         getCommand("headpats").setExecutor(new InteractionCommand(Mood.HAPPY, "%s petted you! %s", "You petted %s! %s"));
         getCommand("kiss").setExecutor(new InteractionCommand(Mood.CUTE, "%s kissed you.. 0////0 %s", "You kissed %s.. 0////0 %s"));

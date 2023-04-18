@@ -13,6 +13,12 @@ commands:
   bite:
     aliases: lovebite
     usage: Bite someone! (cutely)
+  chatmodoff:
+    usage: Disable the chat modification done by animals!
+  chatmodon:
+    usage: Enable the chat modification done by animals!
+  clearcooldown:
+    usage: Clears the specified user's cooldown.
   purr:
     aliases: [mrrow, meow]
     usage: Purr to someone! :3
