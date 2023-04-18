@@ -102,6 +102,18 @@ public class AnimalRP extends JavaPlugin {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+        try {
+            Path filePath = folder.toPath().resolve("disabled.json");
+            if(!Files.exists(filePath)) Files.createFile(filePath);
+            JsonObject jsobj = new JsonObject();
+            AnimalRP.isChatModOff.forEach((a, b) -> {
+                jsobj.addProperty(a.toString(), b);
+            });
+			Files.write(filePath, gson.toJson(jsobj).getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     @Override
@@ -136,6 +148,18 @@ public class AnimalRP extends JavaPlugin {
                 
                 for (Entry<String,JsonElement> entry : z.entrySet()) {
                     AnimalRP.users.put(UUID.fromString(entry.getKey()), AnimalRP.animals.get(entry.getValue().getAsString()));
+                }
+            } catch (JsonSyntaxException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(folder.resolve("disabled.json").toFile().exists()) {
+            try {                
+                JsonObject z = JsonParser.parseString(Files.readString(folder.resolve("disabled.json"))).getAsJsonObject();
+                
+                for (Entry<String,JsonElement> entry : z.entrySet()) {
+                    AnimalRP.isChatModOff.put(UUID.fromString(entry.getKey()), entry.getValue().getAsBoolean());
                 }
             } catch (JsonSyntaxException | IOException e) {
                 e.printStackTrace();

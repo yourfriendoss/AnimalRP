@@ -44,7 +44,9 @@ public class PlayerChat implements Listener {
     public void onPlayerChat(final AsyncChatEvent event) {
         Animal animal = AnimalRP.users.get(event.getPlayer().getUniqueId());
         
-        if(animal != null) {        
+        if(animal != null) { 
+            if(AnimalRP.isChatModOff.get(event.getPlayer().getUniqueId())) return;
+
             if(random.nextDouble() < 0.08) {
                 event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), animal.moodSounds.get(Mood.HAPPY), 10F, 1);
             }
