@@ -22,39 +22,23 @@ import lv.pi.animalrp.AnimalRP;
 
 class CustomChatRenderer implements ChatRenderer {
     Animal animal;
-    Team team;
-    Component suffix;
-    Component prefix;
+    String name;
 
-    public CustomChatRenderer(Animal animal, Team team, Component suffix, Component prefix) {
+    public CustomChatRenderer(Animal animal, String name) {
         this.animal = animal;
-        this.team = team;
-        this.suffix = suffix;
-        this.prefix = prefix;
+        this.name = name;
     }
 
     @Override
     public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message,
             @NotNull Audience viewer) {
-        Component name = sourceDisplayName;
-
-        if(team != null) {
-            name = name.color(team.color());
-        }
-
-        if(animal != null) {
-            name = name.color(TextColor.fromHexString(animal.color));
-        }
-
         Component msg = message;
-
+        
         if(animal != null) {
             msg = AnimalRP.mm.deserialize(animal.chatTransformations(AnimalRP.mm.serialize(message)));
         }
 
-        return this.prefix
-            .append(name)
-            .append(this.suffix)
+        return AnimalRP.mm.deserialize(this.name)
             .append(Component.text(":"))
             .appendSpace()
             .append(msg);
@@ -82,23 +66,28 @@ public class PlayerChat implements Listener {
             }     
         }
 
-        Component csuffix = Component.text("");
-        Component cprefix = Component.text("");
+        String name = event.getPlayer().getName();
+        if(team != null) {
+            name = "<"+team.color().asHexString()+">"+name;
+        }
+
+        if(animal != null) {
+            name = "<"+animal.color+">"+name;
+        }
 
         if(AnimalRP.vaultChat != null) {
             String suffix = AnimalRP.vaultChat.getPlayerSuffix(event.getPlayer());
-            String prefix = AnimalRP.vaultChat.getPlayerPrefix(event.getPlayer());
-
             if(suffix != null) {
-                csuffix = AnimalRP.mm.deserialize(suffix);
+                name = name + suffix;
             }
 
+            String prefix = AnimalRP.vaultChat.getPlayerPrefix(event.getPlayer());
             if(prefix != null) {
-                cprefix = AnimalRP.mm.deserialize(prefix);
+                name = prefix + name;
             }
         }
-        
-        event.renderer(new CustomChatRenderer(chatModOff ? null : animal, team, csuffix, cprefix));
+
+        event.renderer(new CustomChatRenderer(chatModOff ? null : animal, name));
     }
 }
 
