@@ -49,6 +49,7 @@ import com.google.gson.JsonSyntaxException;
 import lv.pi.animalrp.animals.Animal;
 import lv.pi.animalrp.animals.Bee;
 import lv.pi.animalrp.animals.Cat;
+import lv.pi.animalrp.animals.Dog;
 import lv.pi.animalrp.animals.Fox;
 import lv.pi.animalrp.commands.EmoteCommand;
 import lv.pi.animalrp.commands.InteractionCommand;
@@ -57,6 +58,7 @@ import lv.pi.animalrp.commands.ClearCooldownCommand;
 import lv.pi.animalrp.commands.SexCommand;
 import lv.pi.animalrp.commands.TfCommand;
 import lv.pi.animalrp.listeners.PlayerChat;
+import lv.pi.animalrp.listeners.PlayerLeave;
 import lv.pi.animalrp.util.Cooldown;
 import lv.pi.animalrp.util.Emote;
 import lv.pi.animalrp.util.Mood;
@@ -142,6 +144,7 @@ public class AnimalRP extends JavaPlugin {
 
         animals.put("cat", new Cat());
         animals.put("fox", new Fox());
+        animals.put("dog", new Dog());
         animals.put("bee", new Bee());
         
         animals.forEach((z,b) -> {
@@ -195,7 +198,8 @@ public class AnimalRP extends JavaPlugin {
         }
 
         pm.registerEvents(new PlayerChat(), this);
-
+        pm.registerEvents(new PlayerLeave(), this);
+        
         getCommand("tf").setExecutor(new TfCommand());
         getCommand("emote").setExecutor(new EmoteCommand());
         getCommand("sex").setExecutor(new SexCommand());

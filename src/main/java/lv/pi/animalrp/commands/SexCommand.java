@@ -29,68 +29,23 @@ import org.jetbrains.annotations.NotNull;
 import lv.pi.animalrp.AnimalRP;
 
 enum Yaw {
-    NORTH,EAST,WEST,SOUTH;
-}
-
-class SexModel {
-    ArmorStand as;
-    Yaw yaw;
-    int sexTicks = 0;
-    boolean finished = false;
-    Location playerLocation;
-
-    public SexModel(ArmorStand as, Yaw yaw, Location playerLocation) {
-        this.as = as; this.yaw = yaw; this.playerLocation = playerLocation;
-    }
-
-    public void tickSex(Player player) {
-        player.teleport(this.playerLocation);
-
-        this.sexTicks ++;
-        if(this.sexTicks %2 == 0) {
-            Yaw opposite = Yaw.NORTH;
-            if(this.yaw == Yaw.NORTH) opposite = Yaw.SOUTH;
-            if(this.yaw == Yaw.WEST) opposite = Yaw.EAST;
-            if(this.yaw == Yaw.EAST) opposite = Yaw.WEST;
-            if(this.yaw == Yaw.SOUTH) opposite = Yaw.NORTH;
-            this.yaw = opposite;
-            Location asl = this.as.getLocation();
-            asl.add(SexCommand.getVector(this.yaw, 0.2));
-            as.teleport(asl);
-        }
-        
-        if(this.sexTicks == 30) {
-            player.sendMessage(AnimalRP.mm.deserialize("<#FFC0CB>I'm about to.."));
-        }
-
-        if(this.sexTicks == 50) {
-            player.sendMessage(AnimalRP.mm.deserialize("<#FFC0CB>cum!!"));
-            player.getWorld().spawnParticle(Particle.END_ROD, player.getLocation(), 999, 0, 0, 0);
-            this.removeModel();
-            finished = true;
-        }
-    }
-
-
-    public void removeModel() {
-        this.as.remove();
-    }
+    NORTH, EAST, WEST, SOUTH;
 }
 
 public class SexCommand implements CommandExecutor {
 
     static public HashMap<UUID, SexModel> models = new HashMap<UUID, SexModel>();
-    
+
     public SexCommand() {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(AnimalRP.getProvidingPlugin(AnimalRP.class), new Runnable() {
             @Override
             public void run() {
                 Set<Entry<UUID, SexModel>> modelset = models.entrySet();
 
-                for (Iterator<Entry<UUID, SexModel>> iterator = modelset.iterator(); iterator.hasNext(); ) {
+                for (Iterator<Entry<UUID, SexModel>> iterator = modelset.iterator(); iterator.hasNext();) {
                     Entry<UUID, SexModel> value = iterator.next();
                     Player plr = Bukkit.getPlayer(value.getKey());
-                    if(plr == null || value.getValue().finished) {
+                    if (plr == null || value.getValue().finished) {
                         value.getValue().removeModel();
                         iterator.remove();
                     } else {
@@ -100,7 +55,7 @@ public class SexCommand implements CommandExecutor {
             }
         }, 5, 5);
     }
-    
+
     public static Location faceLocation(Entity entity, Location to) {
         if (entity.getWorld() != to.getWorld()) {
             return null;
@@ -147,52 +102,53 @@ public class SexCommand implements CommandExecutor {
     }
 
     public static Vector getVector(Yaw yaw, Double amount) {
-        if(yaw == Yaw.NORTH) {
+        if (yaw == Yaw.NORTH) {
             return new Vector(0, 0, -amount);
         }
-        
-        if(yaw == Yaw.SOUTH) {
+
+        if (yaw == Yaw.SOUTH) {
             return new Vector(0, 0, amount);
         }
-        
-        if(yaw == Yaw.EAST) {
+
+        if (yaw == Yaw.EAST) {
             return new Vector(amount, 0, 0);
         }
-        
-        if(yaw == Yaw.WEST) {
+
+        if (yaw == Yaw.WEST) {
             return new Vector(-amount, 0, 0);
         }
-    
-        return new Vector(0, 0,0);
+
+        return new Vector(0, 0, 0);
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender arg0, @NotNull Command arg1, @NotNull String arg2, @NotNull String[] arg3) {
-        if(!(arg0 instanceof Player)) {
+    public boolean onCommand(@NotNull CommandSender arg0, @NotNull Command arg1, @NotNull String arg2,
+            @NotNull String[] arg3) {
+        if (!(arg0 instanceof Player)) {
             arg0.sendMessage(AnimalRP.mm.deserialize("<gray>I'm sorry console. :(</gray>"));
             return true;
         }
-        
-        Player player = (Player)arg0;
 
-        if(!player.isOp()) {
+        Player player = (Player) arg0;
+
+        if (!player.isOp()) {
             arg0.sendMessage(AnimalRP.mm.deserialize("<red>You are not an OP!"));
             return true;
         }
 
-        if(arg3.length == 0) {
+        if (arg3.length == 0) {
             arg0.sendMessage(AnimalRP.mm.deserialize("<red>Include player!"));
             return true;
         }
 
         String playerName = arg3[0];
         OfflinePlayer of = Bukkit.getOfflinePlayer(playerName);
-        if(of == null) {
+        if (of == null) {
             arg0.sendMessage(AnimalRP.mm.deserialize("<red>User has never joined."));
             return true;
         }
-        
-        if(SexCommand.models.containsKey(player.getUniqueId())) {
+
+        if (SexCommand.models.containsKey(player.getUniqueId())) {
             arg0.sendMessage(AnimalRP.mm.deserialize("<red>You are already in progress."));
             return true;
         }
@@ -213,7 +169,7 @@ public class SexCommand implements CommandExecutor {
         as.setGravity(false);
         as.setHeadPose(new EulerAngle(0.15, 0, 0));
         as.setInvulnerable(true);
-        
+
         as.addEquipmentLock(EquipmentSlot.HEAD, LockType.ADDING);
         as.addEquipmentLock(EquipmentSlot.CHEST, LockType.ADDING);
         as.addEquipmentLock(EquipmentSlot.FEET, LockType.ADDING);
@@ -227,5 +183,55 @@ public class SexCommand implements CommandExecutor {
         SexCommand.models.put(player.getUniqueId(), new SexModel(as, yaw, player.getLocation()));
         return true;
     }
-    
+
+    public class SexModel {
+        ArmorStand as;
+        Yaw yaw;
+        int sexTicks = 0;
+        boolean finished = false;
+        Location playerLocation;
+
+        public SexModel(ArmorStand as, Yaw yaw, Location playerLocation) {
+            this.as = as;
+            this.yaw = yaw;
+            this.playerLocation = playerLocation;
+        }
+
+        public void tickSex(Player player) {
+            player.teleport(this.playerLocation);
+
+            this.sexTicks++;
+            if (this.sexTicks % 2 == 0) {
+                Yaw opposite = Yaw.NORTH;
+                if (this.yaw == Yaw.NORTH)
+                    opposite = Yaw.SOUTH;
+                if (this.yaw == Yaw.WEST)
+                    opposite = Yaw.EAST;
+                if (this.yaw == Yaw.EAST)
+                    opposite = Yaw.WEST;
+                if (this.yaw == Yaw.SOUTH)
+                    opposite = Yaw.NORTH;
+                this.yaw = opposite;
+                Location asl = this.as.getLocation();
+                asl.add(SexCommand.getVector(this.yaw, 0.2));
+                as.teleport(asl);
+            }
+
+            if (this.sexTicks == 30) {
+                player.sendMessage(AnimalRP.mm.deserialize("<#FFC0CB>I'm about to.."));
+            }
+
+            if (this.sexTicks == 50) {
+                player.sendMessage(AnimalRP.mm.deserialize("<#FFC0CB>cum!!"));
+                player.getWorld().spawnParticle(Particle.END_ROD, player.getLocation(), 999, 0, 0, 0);
+                this.removeModel();
+                finished = true;
+            }
+        }
+
+        public void removeModel() {
+            this.as.remove();
+        }
+    }
+
 }

@@ -17,19 +17,6 @@ import lv.pi.animalrp.AnimalRP;
 import lv.pi.animalrp.util.Mood;
 import lv.pi.animalrp.util.TextDestroyer;
 
-class Cooldown {
-    Integer duration;
-    Long executionTime;
-    public Cooldown(Integer duration, Long executionTime) {
-        this.duration = duration;
-        this.executionTime = executionTime;
-    }
-
-    public boolean isExpired() {
-        return this.executionTime-(System.currentTimeMillis()-this.duration) <= 0;
-    }
-}
-
 public class Bee extends Animal {
     TextDestroyer destroyer = new TextDestroyer(new String[]{
         ">_<", "*buzz*",

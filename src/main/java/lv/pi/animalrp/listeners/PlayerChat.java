@@ -97,11 +97,8 @@ public class PlayerChat implements Listener {
                 cprefix = Component.text(prefix);
             }
         }
-        if(chatModOff) {
-            event.renderer(new CustomChatRenderer(null, team, csuffix, cprefix));
-        } else {
-            event.renderer(new CustomChatRenderer(animal, team, csuffix, cprefix));
-        }
+        
+        event.renderer(new CustomChatRenderer(chatModOff ? null : animal, team, csuffix, cprefix));
     }
 }
 
