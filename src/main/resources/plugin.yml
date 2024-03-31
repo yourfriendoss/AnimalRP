@@ -1,7 +1,7 @@
 name: animalrp
 main: lv.pi.animalrp.AnimalRP
 version: 1.0.0
-api-version: 1.19
+api-version: 1.20
 commands:
   tf:
     usage: Become the animal of your dreams!
@@ -30,5 +30,7 @@ commands:
     usage: Cuddle a person.
   emote:
     usage: Emote!
+  bzz:
+    usage: Bzz at someone :3
   sex:
     usage: This command can only be used by Operators.

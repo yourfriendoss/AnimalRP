@@ -46,7 +46,7 @@ public class ClearCooldownCommand implements CommandExecutor {
         }
 
         AnimalRP.cooldowns.remove(of.getUniqueId());
-        sender.sendMessage(AnimalRP.mm.deserialize("<red>Removed" + of.getName() + "'s cooldown (type: " + cooldown.type + ")!"));
+        sender.sendMessage(AnimalRP.mm.deserialize("<red>Removed " + of.getName() + "'s cooldown (type: " + cooldown.type + ")!"));
         return true;
     }
 }

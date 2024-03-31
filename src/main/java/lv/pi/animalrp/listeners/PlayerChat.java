@@ -2,10 +2,12 @@ package lv.pi.animalrp.listeners;
 
 import java.util.Random;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.NotNull;
 
 import io.papermc.paper.chat.ChatRenderer;
@@ -20,20 +22,42 @@ import lv.pi.animalrp.AnimalRP;
 
 class CustomChatRenderer implements ChatRenderer {
     Animal animal;
-    
-    public CustomChatRenderer(Animal animal) {
+    Team team;
+    Component suffix;
+    Component prefix;
+
+    public CustomChatRenderer(Animal animal, Team team, Component suffix, Component prefix) {
         this.animal = animal;
+        this.team = team;
+        this.suffix = suffix;
+        this.prefix = prefix;
     }
 
     @Override
     public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message,
             @NotNull Audience viewer) {
-        return Component
-            .text("<")
-            .append(sourceDisplayName.color(TextColor.fromHexString(animal.color)))
-            .append(Component.text(">"))
+        Component name = sourceDisplayName;
+
+        if(team != null) {
+            name = name.color(team.color());
+        }
+
+        if(animal != null) {
+            name = name.color(TextColor.fromHexString(animal.color));
+        }
+
+        Component msg = message;
+
+        if(animal != null) {
+            msg = AnimalRP.mm.deserialize(animal.chatTransformations(AnimalRP.mm.serialize(message)));
+        }
+
+        return this.prefix
+            .append(name)
+            .append(this.suffix)
+            .append(Component.text(":"))
             .appendSpace()
-            .append(AnimalRP.mm.deserialize(animal.chatTransformations(AnimalRP.mm.serialize(message))));
+            .append(msg);
     }
 };
 
@@ -42,16 +66,41 @@ public class PlayerChat implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerChat(final AsyncChatEvent event) {
-        Animal animal = AnimalRP.users.get(event.getPlayer().getUniqueId());
-        
-        if(animal != null) { 
-            if(AnimalRP.isChatModOff.get(event.getPlayer().getUniqueId())) return;
+        final Animal animal = AnimalRP.users.get(event.getPlayer().getUniqueId());
+        Boolean chatModOff = false;
+        Team team = Bukkit.getServer().getScoreboardManager().getMainScoreboard().getPlayerTeam(event.getPlayer());
 
-            if(random.nextDouble() < 0.08) {
-                event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), animal.moodSounds.get(Mood.HAPPY), 10F, 1);
+        if(animal != null) { 
+            if(AnimalRP.isChatModOff.get(event.getPlayer().getUniqueId()) != null) {
+                chatModOff = true;    
+            } else {
+                if(random.nextDouble() < 0.08) {
+                    Bukkit.getScheduler().runTask(AnimalRP.getPlugin(AnimalRP.class), () -> {
+                        event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), animal.moodSounds.get(Mood.HAPPY), 10F, 1);
+                    });
+                }       
+            }     
+        }
+
+        Component csuffix = Component.text("");
+        Component cprefix = Component.text("");
+
+        if(AnimalRP.vaultChat != null) {
+            String suffix = AnimalRP.vaultChat.getPlayerSuffix(event.getPlayer());
+            String prefix = AnimalRP.vaultChat.getPlayerPrefix(event.getPlayer());
+
+            if(suffix != null) {
+                csuffix = Component.text(suffix);
             }
 
-            event.renderer(new CustomChatRenderer(animal));
+            if(prefix != null) {
+                cprefix = Component.text(prefix);
+            }
+        }
+        if(chatModOff) {
+            event.renderer(new CustomChatRenderer(null, team, csuffix, cprefix));
+        } else {
+            event.renderer(new CustomChatRenderer(animal, team, csuffix, cprefix));
         }
     }
 }

@@ -25,7 +25,7 @@ public class ChatModCommand implements CommandExecutor {
 
         boolean isDisabled = false;
 
-        if(AnimalRP.isChatModOff.get(player.getUniqueId())) {
+        if(AnimalRP.isChatModOff.get(player.getUniqueId()) != null) {
             isDisabled = true;
         }
 

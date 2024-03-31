@@ -39,7 +39,7 @@ public class TfCommand implements CommandExecutor {
                 Animal previous = AnimalRP.users.get(player.getUniqueId());
                 player.sendMessage(AnimalRP.mm.deserialize("<green>You start splitting apart, dropping your <blue>" + previous.name+"-like<green> appearence.."));
                 AnimalRP.users.remove(player.getUniqueId());
-                if(AnimalRP.isChatModOff.get(player.getUniqueId())) 
+                if(AnimalRP.isChatModOff.get(player.getUniqueId()) != null) 
                     AnimalRP.isChatModOff.remove(player.getUniqueId());
                 return true;
             } else {

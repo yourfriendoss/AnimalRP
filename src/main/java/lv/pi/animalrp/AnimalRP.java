@@ -37,6 +37,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.gson.Gson;
@@ -55,20 +56,23 @@ import lv.pi.animalrp.commands.ChatModCommand;
 import lv.pi.animalrp.commands.ClearCooldownCommand;
 import lv.pi.animalrp.commands.SexCommand;
 import lv.pi.animalrp.commands.TfCommand;
-import lv.pi.animalrp.listeners.AntiElytra;
 import lv.pi.animalrp.listeners.PlayerChat;
 import lv.pi.animalrp.util.Cooldown;
 import lv.pi.animalrp.util.Emote;
 import lv.pi.animalrp.util.Mood;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
 
 public class AnimalRP extends JavaPlugin {
-    public static HashMap<UUID, Animal> users = new HashMap<UUID, Animal>();
-    public static HashMap<UUID, Boolean> isChatModOff = new HashMap<UUID, Boolean>();
-    public static HashMap<UUID, Cooldown> cooldowns = new HashMap<UUID, Cooldown>();
-    public static HashMap<String, Animal> animals = new HashMap<String, Animal>();
+    public static HashMap<UUID, Animal> users;
+    public static HashMap<UUID, Boolean> isChatModOff;
+    public static HashMap<UUID, Cooldown> cooldowns;
+    public static HashMap<String, Animal> animals;
     public static Emote emotes;
     
+    public static Chat vaultChat;
+
     public static Boolean configEnabled = true;
     private Gson gson;
     public static MiniMessage mm = MiniMessage.miniMessage();
@@ -120,15 +124,25 @@ public class AnimalRP extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        PluginManager pm = getServer().getPluginManager();
+        RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+        if(rsp != null) {
+            AnimalRP.vaultChat = rsp.getProvider();
+        } else {
+            System.out.println("[AnimalRP] !!! Missing vault, prefix/suffix will not be included in chat formatting.");
+        }
+        AnimalRP.users = new HashMap<UUID, Animal>();
+        AnimalRP.isChatModOff = new HashMap<UUID, Boolean>();
+        AnimalRP.cooldowns = new HashMap<UUID, Cooldown>();
+        AnimalRP.animals = new HashMap<String, Animal>();
+
         AnimalRP.emotes = new Emote();
+        PluginManager pm = getServer().getPluginManager();
 
         this.gson = new Gson();
 
         animals.put("cat", new Cat());
         animals.put("fox", new Fox());
         animals.put("bee", new Bee());
-        // animals.put("phantom", new Phantom()); // finish Phantom
         
         animals.forEach((z,b) -> {
             pm.registerEvents(b, this);
@@ -181,7 +195,6 @@ public class AnimalRP extends JavaPlugin {
         }
 
         pm.registerEvents(new PlayerChat(), this);
-        pm.registerEvents(new AntiElytra(), this);
 
         getCommand("tf").setExecutor(new TfCommand());
         getCommand("emote").setExecutor(new EmoteCommand());
@@ -197,9 +210,9 @@ public class AnimalRP extends JavaPlugin {
         getCommand("headpats").setExecutor(new InteractionCommand(Mood.HAPPY, "%s petted you! %s", "You petted %s! %s"));
         getCommand("kiss").setExecutor(new InteractionCommand(Mood.CUTE, "%s kissed you.. 0////0 %s", "You kissed %s.. 0////0 %s"));
         getCommand("bite").setExecutor(new InteractionCommand(Mood.ANGRY, "%s bit you!! Σ(っﾟДﾟ)っ %s", "You bit %s! (○｀д´)ﾉｼ %s"));
+        getCommand("bzz").setExecutor(new InteractionCommand(Mood.ANGRY, "%s bzzs at you!! :3 %s", "You bzzed at %s :3 %s"));
         getCommand("purr").setExecutor(new InteractionCommand(Mood.CUTE, "You hear the soft sound of %s purring on you... %s", "You jump on %s, and start purring. %s"));
         getCommand("scratch").setExecutor(new InteractionCommand(Mood.ANGRY, "%s SCRATCHES YOU! Ow! %s", "You channel your inner evil, and scratch %s! %s"));
-
         /* Contributed by Simo__28 */
         getCommand("hug").setExecutor(new InteractionCommand(Mood.HAPPY, "%s hugs you! How heartwarming. %s", "You hug %s! How heartwarming. %s"));
         getCommand("cuddle").setExecutor(new InteractionCommand(Mood.CUTE, "%s cuddles with you. %s", "You and %s start cuddling. How cute! %s"));
