@@ -87,7 +87,7 @@ public class PlayerChat implements Listener {
             }
         }
 
-        event.renderer(new CustomChatRenderer(chatModOff ? null : animal, name));
+        event.renderer(new CustomChatRenderer(chatModOff ? null : animal, name + "<reset>"));
     }
 }
 
