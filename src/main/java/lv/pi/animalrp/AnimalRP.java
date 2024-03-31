@@ -64,7 +64,6 @@ import lv.pi.animalrp.util.Emote;
 import lv.pi.animalrp.util.Mood;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.economy.Economy;
 
 public class AnimalRP extends JavaPlugin {
     public static HashMap<UUID, Animal> users;

@@ -90,11 +90,11 @@ public class PlayerChat implements Listener {
             String prefix = AnimalRP.vaultChat.getPlayerPrefix(event.getPlayer());
 
             if(suffix != null) {
-                csuffix = Component.text(suffix);
+                csuffix = AnimalRP.mm.deserialize(suffix);
             }
 
             if(prefix != null) {
-                cprefix = Component.text(prefix);
+                cprefix = AnimalRP.mm.deserialize(prefix);
             }
         }
         
