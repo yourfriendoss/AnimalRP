@@ -17,31 +17,19 @@ import lv.pi.animalrp.util.Mood;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 
-import net.kyori.adventure.text.format.TextColor;
 import lv.pi.animalrp.AnimalRP;
 
 class CustomChatRenderer implements ChatRenderer {
-    Animal animal;
-    String name;
+    String message;
 
-    public CustomChatRenderer(Animal animal, String name) {
-        this.animal = animal;
-        this.name = name;
+    public CustomChatRenderer(String message) {
+        this.message = message;
     }
 
     @Override
     public @NotNull Component render(@NotNull Player source, @NotNull Component sourceDisplayName, @NotNull Component message,
             @NotNull Audience viewer) {
-        Component msg = message;
-        
-        if(animal != null) {
-            msg = AnimalRP.mm.deserialize(animal.chatTransformations(AnimalRP.mm.serialize(message)));
-        }
-
-        return AnimalRP.mm.deserialize(this.name)
-            .append(Component.text(":"))
-            .appendSpace()
-            .append(msg);
+        return AnimalRP.mm.deserialize(this.message);
     }
 };
 
@@ -66,28 +54,17 @@ public class PlayerChat implements Listener {
             }     
         }
 
-        String name = event.getPlayer().getName();
-        if(team != null) {
-            name = "<"+team.color().asHexString()+">"+name;
-        }
+        String format = "%prefix%teamColor%animalColor%name%suffix: %message";
+        String message = format;
 
-        if(animal != null) {
-            name = "<"+animal.color+">"+name;
-        }
+        message = message.replaceAll("%prefix", AnimalRP.vaultChat.getPlayerPrefix(event.getPlayer()));
+        message = message.replaceAll("%suffix", AnimalRP.vaultChat.getPlayerSuffix(event.getPlayer()));
+        message = message.replaceAll("%teamColor", team == null ? "" : "<" + team.color().asHexString() + ">");
+        message = message.replaceAll("%animalColor", (animal != null && !chatModOff) ? "<" + animal.color + ">" : "");
+        message = message.replaceAll("%name", event.getPlayer().getName());
+        message = message.replaceAll("%message", (animal != null && !chatModOff) ? animal.chatTransformations(AnimalRP.mm.serialize(event.message())) : AnimalRP.mm.serialize(event.message()));
 
-        if(AnimalRP.vaultChat != null) {
-            String suffix = AnimalRP.vaultChat.getPlayerSuffix(event.getPlayer());
-            if(suffix != null) {
-                name = name + suffix;
-            }
-
-            String prefix = AnimalRP.vaultChat.getPlayerPrefix(event.getPlayer());
-            if(prefix != null) {
-                name = prefix + name;
-            }
-        }
-
-        event.renderer(new CustomChatRenderer(chatModOff ? null : animal, name + "<reset>"));
+        event.renderer(new CustomChatRenderer(message));
     }
 }
 
