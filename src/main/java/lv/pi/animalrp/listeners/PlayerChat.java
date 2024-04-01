@@ -56,9 +56,13 @@ public class PlayerChat implements Listener {
 
         String format = "%prefix%teamColor%animalColor%name%suffix: %message";
         String message = format;
-
-        message = message.replaceAll("%prefix", AnimalRP.vaultChat.getPlayerPrefix(event.getPlayer()));
-        message = message.replaceAll("%suffix", AnimalRP.vaultChat.getPlayerSuffix(event.getPlayer()));
+        if(AnimalRP.vaultChat != null) {
+            message = message.replaceAll("%prefix", AnimalRP.vaultChat.getPlayerPrefix(event.getPlayer()));
+            message = message.replaceAll("%suffix", AnimalRP.vaultChat.getPlayerSuffix(event.getPlayer()));
+        } else {
+            message = message.replaceAll("%prefix", "");
+            message = message.replaceAll("%suffix", "");
+        }
         message = message.replaceAll("%teamColor", team == null ? "" : "<" + team.color().asHexString() + ">");
         message = message.replaceAll("%animalColor", (animal != null && !chatModOff) ? "<" + animal.color + ">" : "");
         message = message.replaceAll("%name", event.getPlayer().getName());
