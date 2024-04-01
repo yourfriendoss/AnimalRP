@@ -34,6 +34,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.logging.Level;
 import java.util.UUID;
 
 import org.bukkit.plugin.PluginManager;
@@ -123,13 +124,22 @@ public class AnimalRP extends JavaPlugin {
 		}
     }
 
-    @Override
-    public void onEnable() {
+    public boolean setupVault() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
         RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
         if(rsp != null) {
             AnimalRP.vaultChat = rsp.getProvider();
         } else {
-            System.out.println("[AnimalRP] !!! Missing vault, prefix/suffix will not be included in chat formatting.");
+            return false;
+        } 
+        return true;
+    }
+    @Override
+    public void onEnable() {
+        if(!setupVault()) {
+            this.getLogger().log(Level.WARNING, "!!! Missing vault, prefix/suffix will not be included in chat formatting.");
         }
         AnimalRP.users = new HashMap<UUID, Animal>();
         AnimalRP.isChatModOff = new HashMap<UUID, Boolean>();
